@@ -19,6 +19,13 @@ export default class NewStudentForm extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
+    this.props.addStudent(this.state)
+    //The above line does the same as the following 4 lines
+    // this.props.addStudent({
+    //   firstName: this.state.firstName,
+    //   lastName: this.state.lastName,
+    //   email: this.state.email
+    // });
     this.setState({
       firstName: '',
       lastName: '',
@@ -27,6 +34,8 @@ export default class NewStudentForm extends Component {
   }
 
   render() {
+    const addStudent = this.props.addStudent
+    
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
