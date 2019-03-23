@@ -51,7 +51,7 @@ export default class Main extends Component {
       <div>
         <h1>Students</h1>
         <button onClick={this.handleClick}>Add Student</button>
-        {this.state.showStudent ? <NewStudentForm /> : null}
+        {this.state.showStudent ? <NewStudentForm showStudent={this.state.showStudent} /> : null}
         <table>
           <thead>
             <tr>
