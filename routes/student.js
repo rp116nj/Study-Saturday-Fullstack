@@ -11,11 +11,36 @@ router.get('/:studentId', function(req, res, next) {
     .catch(next);
 });
 
-router.get('/', function(req, res, next) {
-  Student.findAll({ include: { all: true } }).then(students =>
-    res.json(students)
-  );
+router.get('/', function (req, res, next) {
+ 
+    Student.findAll({ include: { all: true } }).then(students =>
+      res.json(students)
+    );
+  
 });
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newStudent = await Student.create(req.body)
+    const newTest = await Test.create(
+      {
+        subject: 'default',
+        grade: 78,
+        studentId: newStudent.id
+      }
+    )
+    //res.json({ newStudent, newTest })
+    const newStudentWIthTest = await Student.findByPk(newStudent.id, {
+      include: [{
+        model: Test,
+      }]
+   })
+    res.json(newStudentWIthTest)
+  }
+  catch (err) {
+    next(err)
+  }
+})
 
 router.put('/:id', function(req, res, next) {
   Student.update(req.body, {

@@ -3,16 +3,18 @@ import axios from 'axios';
 
 import StudentList from './StudentList.js';
 import SingleStudent from './SingleStudent.js';
-
+import  NewStudentForm from './NewStudentForm.js'
 export default class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
       students: [],
       selectedStudent: {},
+      isHidden: true
     };
 
     this.selectStudent = this.selectStudent.bind(this);
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
@@ -34,7 +36,14 @@ export default class Main extends Component {
       selectedStudent: student,
     });
   }
-
+  handleClick(event) {
+    return this.setState({
+      //isHidden: !this.state.isHidden
+      isHidden: ((prevState) => {
+        !prevState.isHidden
+      })
+    })
+  }
   render() {
     return (
       <div>
@@ -54,7 +63,12 @@ export default class Main extends Component {
         {this.state.selectedStudent.id ? (
           <SingleStudent student={this.state.selectedStudent} />
         ) : null}
+        <button type="button" onClick={this.handleClick}>Add New Student</button>
+        {this.state.isHidden && <NewStudentForm />}
+
+        {/* {this.state.showForm ? <NewStudentForm /> : null}  */}
       </div>
+
     );
   }
 }
